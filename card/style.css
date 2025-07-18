@@ -1,0 +1,72 @@
+.card {
+  font-family: Vazirmatn, Tahoma, sans-serif;
+  font-size: 20px;
+  background-color: white;
+  color: #333;
+  padding: 20px;
+  text-align: center;
+}
+
+.front {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.image-container {
+  margin: 20px 0;
+}
+
+.image {
+  width: 300px;
+  height: 300px;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.divider {
+  margin: 20px auto;
+  border: none;
+  border-top: 1px solid #ccc;
+  width: 80%;
+}
+
+.example {
+  color: #2a4d8f;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.translation {
+  direction: rtl;
+  text-align: center;
+  color: #a52a2a;
+  margin-bottom: 10px;
+  font-weight: normal;
+}
+
+.persian {
+  direction: rtl;
+  text-align: center;
+  font-size: 22px;
+  color: #00897b;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.persian-item {
+  direction: rtl;
+  text-align: center;
+  font-size: 22px;
+  color: #00897b;
+  margin-bottom: 5px;
+  font-weight: bold;
+}
+
+/* Highlight and italicize keyword in examples */
+.english-word {
+  font-style: italic;
+  color: #1200FF;
+}
