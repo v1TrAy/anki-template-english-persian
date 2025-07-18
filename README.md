@@ -7,6 +7,12 @@ This is a custom Anki card template for learning English vocabulary with Persian
 - Optional image support
 - Clean RTL support for Persian text
 
+## 🖼 Preview
+
+Here is what a sample card looks like:
+
+![Card Preview](./assets/preview.png)
+
 ## 💾 How to Use
 
 1. Open Anki → `Tools` → `Manage Note Types` → `Add` → `Clone: Basic`
