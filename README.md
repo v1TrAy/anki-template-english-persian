@@ -23,6 +23,10 @@ Here is what a sample card looks like:
    - `card/style.css`
 4. Make sure to also paste the `<script>` content from `script.js` into the back template, after all the HTML.
 
+## ✂️ Quick Copy-Paste Version
+
+If you prefer a single-file setup, use [`card/back-inline.html`](./card/back-inline.html) which includes both the HTML and the JavaScript.
+
 ## 📦 Fields Required
 
 - `English`
