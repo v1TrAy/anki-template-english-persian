@@ -70,16 +70,27 @@
       const secondLastChar = verb.slice(-2, -1);
       const isCVC = !vowels.includes(lastChar) && vowels.includes(secondLastChar) && verb.length <= 4;
 
-      // Check for doubled consonant verbs like "rub" -> "rubbed"
+      // Handle verbs ending in 'e' (e.g., revise -> revised, revising)
+      if (verb.endsWith('e')) {
+        const baseWithoutE = verb.slice(0, -1);
+        return [
+          verb, // revise
+          `${verb}s`, // revises
+          `${baseWithoutE}ed`, // revised
+          `${baseWithoutE}ing` // revising
+        ];
+      }
+
+      // Handle verbs with CVC pattern (e.g., rub -> rubbed, rubbing)
       const doubled = isCVC ? verb + lastChar : verb;
-      const baseWithoutE = verb.endsWith('e') ? verb.slice(0, -1) : verb;
+      const baseWithoutE = verb;
 
       return [
-        verb,
-        `${verb}s`,
-        `${doubled}ed`,
-        `${baseWithoutE}ing`,
-        `${doubled}ing`
+        verb, // rub
+        `${verb}s`, // rubs
+        `${doubled}ed`, // rubbed
+        `${baseWithoutE}ing`, // rubbing
+        `${doubled}ing` // rubbing
       ];
     }
 
@@ -168,5 +179,3 @@
     setTimeout(runCardScripts, 100);
   }
 </script>
-
-
