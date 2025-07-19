@@ -31,12 +31,16 @@
     const rawKeyword = keywordEl.innerText.trim().toLowerCase();
     const parts = rawKeyword.split(/\s+/);
 
-    let regex;
-
     if (parts.length === 1) {
       // Single word verbs (e.g., run, play)
       const verbForms = getVerbForms(parts[0]);
-      regex = new RegExp(`\\b(${verbForms.join('|')})\\b`, 'gi');
+      const regex = new RegExp(`\\b(${verbForms.join('|')})\\b`, 'gi');
+
+      document.querySelectorAll('.example').forEach(example => {
+        example.innerHTML = example.innerHTML.replace(regex, match =>
+          `<span class="english-word">${match}</span>`
+        );
+      });
 
     } else if (parts.length === 2) {
       // Two-word phrasal verbs (e.g., rub out)
@@ -45,24 +49,41 @@
       const verbForms = getVerbForms(verb).map(f => f.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'));
       const escapedParticle = particle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
-      // Support forms like: rubbed out, rubbed it out, rubbed the whole thing out
-      regex = new RegExp(`\\b(${verbForms.join('|')})(?:\\s+\\w+){0,3}?\\s+${escapedParticle}\\b`, 'gi');
+      document.querySelectorAll('.example').forEach(example => {
+        // Highlight verb forms separately
+        example.innerHTML = example.innerHTML.replace(
+          new RegExp(`\\b(${verbForms.join('|')})\\b`, 'gi'),
+          match => `<span class="english-word">${match}</span>`
+        );
+
+        // Highlight particle separately
+        example.innerHTML = example.innerHTML.replace(
+          new RegExp(`\\b${escapedParticle}\\b`, 'gi'),
+          match => `<span class="english-word">${match}</span>`
+        );
+      });
 
     } else if (parts.length === 3) {
       // Simple three-word phrases
-      regex = new RegExp(`\\b${parts[0]}(?:\\s+\\w+){0,2}\\s+${parts[1]}(?:\\s+\\w+){0,2}\\s+${parts[2]}\\b`, 'gi');
+      const regex = new RegExp(`\\b${parts[0]}(?:\\s+\\w+){0,2}\\s+${parts[1]}(?:\\s+\\w+){0,2}\\s+${parts[2]}\\b`, 'gi');
+
+      document.querySelectorAll('.example').forEach(example => {
+        example.innerHTML = example.innerHTML.replace(regex, match =>
+          `<span class="english-word">${match}</span>`
+        );
+      });
+
     } else {
       // Fallback for longer or unknown phrases
       const escaped = rawKeyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-      regex = new RegExp(`\\b${escaped}\\b`, 'gi');
-    }
+      const regex = new RegExp(`\\b${escaped}\\b`, 'gi');
 
-    // Highlight matched words in examples
-    document.querySelectorAll('.example').forEach(example => {
-      example.innerHTML = example.innerHTML.replace(regex, match =>
-        `<span class="english-word">${match}</span>`
-      );
-    });
+      document.querySelectorAll('.example').forEach(example => {
+        example.innerHTML = example.innerHTML.replace(regex, match =>
+          `<span class="english-word">${match}</span>`
+        );
+      });
+    }
 
     // Persian numbering for translation list
     const persianContainer = document.getElementById("persian-list");
