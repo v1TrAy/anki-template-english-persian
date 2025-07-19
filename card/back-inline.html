@@ -1,0 +1,112 @@
+<!-- Visible English word -->
+<div class="english-back">{{English}}</div>
+
+<!-- Hidden keyword for JavaScript -->
+<div id="keyword" style="display: none;">{{English}}</div>
+
+{{#Image}}
+  <div class="image-container">
+    <img src="{{Image}}" alt="Image" class="image">
+  </div>
+{{/Image}}
+
+{{#Persian}}
+  <div class="persian" id="persian-list">{{Persian}}</div>
+{{/Persian}}
+
+{{#Example1}}
+  <hr class="divider">
+  <div class="example">{{Example1}}</div>
+{{/Example1}}
+{{#Example1_1}}
+  <div class="translation">{{Example1_1}}</div>
+{{/Example1_1}}
+
+{{#Example2}}
+  <hr class="divider">
+  <div class="example">{{Example2}}</div>
+{{/Example2}}
+{{#Example2_2}}
+  <div class="translation">{{Example2_2}}</div>
+{{/Example2_2}}
+
+{{#Example3}}
+  <hr class="divider">
+  <div class="example">{{Example3}}</div>
+{{/Example3}}
+{{#Example3_3}}
+  <div class="translation">{{Example3_3}}</div>
+{{/Example3_3}}
+
+{{#Example4}}
+  <hr class="divider">
+  <div class="example">{{Example4}}</div>
+{{/Example4}}
+{{#Example4_4}}
+  <div class="translation">{{Example4_4}}</div>
+{{/Example4_4}}
+
+{{#Example5}}
+  <hr class="divider">
+  <div class="example">{{Example5}}</div>
+{{/Example5}}
+{{#Example5_5}}
+  <div class="translation">{{Example5_5}}</div>
+{{/Example5_5}}
+
+
+<script>
+
+function runCardScripts() {
+  // Convert English digits to Persian
+  function toPersianNumber(num) {
+    const persianDigits = '۰۱۲۳۴۵۶۷۸۹';
+    return String(num).split('').map(d => persianDigits[d] || d).join('');
+  }
+
+  const keywordEl = document.getElementById("keyword");
+  if (!keywordEl) return;
+
+  const keyword = keywordEl.innerText.trim().toLowerCase();
+
+  // Escape special characters for RegExp
+  const base = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
+  // Remove trailing "e" to catch common derivatives like -ing, -ed
+  const baseWithoutE = base.endsWith('e') ? base.slice(0, -1) : base;
+
+  // Create regex for keyword and common derivatives
+  const regex = new RegExp(`\\b(${base}|${baseWithoutE}((s|es|ed|ing|ies)?))\\b`, 'gi');
+
+  // Highlight keyword and its derivatives in all example elements
+  document.querySelectorAll('.example').forEach(example => {
+    example.innerHTML = example.innerHTML.replace(regex, `<span class="english-word">$1</span>`);
+  });
+
+  // Format Persian definitions into numbered list (if multiline)
+  const persianContainer = document.getElementById("persian-list");
+  if (persianContainer) {
+    const rawText = persianContainer.innerText || persianContainer.textContent;
+
+    const lines = rawText
+      .replace(/\r/g, '')
+      .split(/\n+/)
+      .map(line => line.trim())
+      .filter(line => line.length > 0);
+
+    if (lines.length > 1) {
+      persianContainer.innerHTML = lines.map((line, index) =>
+        `<div class="persian-item">${toPersianNumber(index + 1)}) ${line}</div>`
+      ).join('');
+    }
+  }
+}
+
+// Run the script either via Anki event or fallback after short delay
+if (typeof Anki !== "undefined" && Anki) {
+  document.addEventListener("anki:shown", runCardScripts);
+} else {
+  setTimeout(runCardScripts, 100);
+}
+
+</script>
